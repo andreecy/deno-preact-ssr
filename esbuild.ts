@@ -10,7 +10,7 @@ const result = await esbuild.build({
     bundle: true,
     minify: true,
     format: 'esm',
-    target: ['chrome58', 'firefox57', 'safari11', 'edge16'],
+    target: ["chrome99", "firefox99", "safari15"],
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
 })
