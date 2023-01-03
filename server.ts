@@ -1,24 +1,24 @@
 import { serve } from "https://deno.land/std@0.157.0/http/server.ts";
-import render from 'preact-render-to-string';
-import { h } from 'preact';
+import { createElement } from "react";
+import { renderToReadableStream } from "react-dom/server";
 import App from "./App.tsx";
+
+const suspenseMark = `data:text/javascript;/** suspense mark **/`;
 
 const handler = async (request: Request) => {
 
     const url = new URL(request.url)
     console.log(url.pathname)
-    
+
     // match the route
     if (url.pathname === '/') {
-        const app = render(h(App, null, null))
+        const stream = await renderToReadableStream(
+            createElement(App, {}),
+            {
+                bootstrapScripts: ['/entry-client.js']
+            })
 
-        const html = `
-            <body>
-                <div id="root">${app}</div>
-                <script type="module" src="/entry-client.js"></script>
-            </body>`
-
-        return new Response(html, {
+        return new Response(stream, {
             headers: { 'content-type': 'text/html' },
         });
     }

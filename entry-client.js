@@ -1,6 +1,7 @@
-import { h, hydrate } from 'preact';
+import { createElement } from "react";
+import { hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 
-const app = h(App, null, null)
+const el = createElement(App, null, null)
 
-hydrate(app, document.getElementById('root'))
+hydrateRoot(document, el)
